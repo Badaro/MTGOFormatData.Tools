@@ -81,7 +81,7 @@ namespace CardListUpdater
                     if (manaCost != null && manaCost.Replace("{", "").Split("}").Where(c => c == "W" || c == "U" || c == "B" || c == "R" || c == "G").Count() == 0)
                         continue; // Skips colorless, hybrid and pyrexian mana cards
 
-                    bool isModalDfcLand = card.layout == "modal_dfc" && (code == "ZNR" || cardName.Contains("Pathway"));
+                    bool isModalDfcLand = card.layout == "modal_dfc" && (code == "ZNR" || code == "MH3" || cardName.Contains("Pathway"));
 
                     string fixedColor = "";
                     if (cardColor.Contains('W')) fixedColor += "W";
