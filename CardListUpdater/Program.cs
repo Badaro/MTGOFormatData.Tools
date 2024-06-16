@@ -63,6 +63,10 @@ namespace CardListUpdater
 
                     bool isSplit = card.layout == "split" || card.layout == "aftermath";
 
+                    List<string> keywords = new List<string>();
+                    if(card.keywords!=null) foreach (string keyword in card.keywords) keywords.Add(keyword);
+                    bool isDevoid = keywords.Any(k => k == "Devoid");
+
                     bool isLand = false;
                     foreach (var type in card.types) if (type == "Land") isLand = true;
 
@@ -70,14 +74,14 @@ namespace CardListUpdater
                     if (card.keywords != null) foreach (var type in card.keywords) if (type == "Flashback") isFlashback = true;
 
                     string cardColor = "";
-                    if (isLand || isFlashback || isSplit) foreach (var color in card.colorIdentity) cardColor += color;
+                    if (isLand || isFlashback || isSplit || isDevoid) foreach (var color in card.colorIdentity) cardColor += color;
                     else foreach (var color in card.colors) cardColor += color;
 
                     string manaCost = card.manaCost;
                     if (manaCost != null && manaCost.Replace("{", "").Split("}").Where(c => c == "W" || c == "U" || c == "B" || c == "R" || c == "G").Count() == 0)
                         continue; // Skips colorless, hybrid and pyrexian mana cards
 
-                    bool isModalDfcLand = card.layout == "modal_dfc" && (code=="ZNR" || cardName.Contains("Pathway"));
+                    bool isModalDfcLand = card.layout == "modal_dfc" && (code == "ZNR" || cardName.Contains("Pathway"));
 
                     string fixedColor = "";
                     if (cardColor.Contains('W')) fixedColor += "W";
